@@ -1,0 +1,8 @@
+{% ckan_extends %}
+
+{% block package_basic_fields_custom %}
+  {{ form.input('facility', label=_('Facility'), id='field-facility', placeholder=_('eg, ALS'), value=data.facility, error=errors.facility, classes=['control-medium']) }}
+  {{ form.input('beamline', label=_('Beamline'), id='field-beamline', placeholder=_('eg, 8.3.2'), value=data.beamline, error=errors.beamline, classes=['control-medium']) }}
+  {{ form.input('owner', label=_('Owner'), id='field-owner', placeholder=_('eg, Sammy Scientist'), value=data.owner, error=errors.owner, classes=['control-medium']) }}
+  {{ form.input('collector', label=_('Collector'), id='field-collector', placeholder=_('eg, Emmett Experimentalist'), value=data.collector, error=errors.collector, classes=['control-medium']) }}
+{% endblock %}
