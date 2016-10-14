@@ -6,21 +6,8 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
     p.implements(p.IDatasetForm)
     p.implements(p.IConfigurer)
 
-    def create_package_schema(self):
-        schema = super(ExtrafieldsPlugin, self).create_package_schema()
-	schema.update({'facility': [tk.get_validator('ignore_missing'),\
-		                   tk.get_converter('convert_to_extras')]})
-	schema.update({'beamline': [tk.get_validator('ignore_missing'),\
-		                   tk.get_converter('convert_to_extras')]})
-	schema.update({'owner': [tk.get_validator('ignore_missing'),\
-		                   tk.get_converter('convert_to_extras')]})
-	schema.update({'collecter': [tk.get_validator('ignore_missing'),\
-		                   tk.get_converter('convert_to_extras')]})
-		          
-	return schema
+    def _modify_package_schema(self, schema):
 
-    def update_package_schema(self):
-	schema = super(ExtrafieldsPlugin,self).update_package_schema()
 	schema.update({'facility': [tk.get_validator('ignore_missing'),\
 				tk.get_converter('convert_to_extras')]})
 	schema.update({'beamline': [tk.get_validator('ignore_missing'),\
@@ -28,7 +15,23 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
 	schema.update({'owner': [tk.get_validator('ignore_missing'),\
 				tk.get_converter('convert_to_extras')]})
 	schema.update({'collector': [tk.get_validator('ignore_missing'),\
-			            tk.get_converter('convert_to_extras')]})
+				tk.get_converter('convert_to_extras')]})
+	schema['resources'].pop('name')
+	schema['resources'].update({'name':[tk.get_validator('ignore_missing')],
+				'recon_alg':[tk.get_validator('ignore_missing')],
+				'filter':[tk.get_validator('ignore_missing')],
+				'cor':[tk.get_validator('ignore_missing')]})	
+
+	return schema
+
+    def create_package_schema(self):
+	schema = super(ExtrafieldsPlugin,self).create_package_schema()
+	schema = self._modify_package_schema(schema)
+	return schema
+   
+    def update_package_schema(self):
+	schema = super(ExtrafieldsPlugin,self).update_package_schema()
+	schema = self._modify_package_schema(schema)
 	return schema
 
     def show_package_schema(self):
@@ -41,6 +44,11 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
 				    tk.get_validator('ignore_missing')]})
 	schema.update({'collector': [tk.get_converter('convert_from_extras'),\
 				    tk.get_validator('ignore_missing')]})
+	schema['resources'].pop('name')
+	schema['resources'].update({'name':[tk.get_validator('ignore_missing')],
+				'recon_alg':[tk.get_validator('ignore_missing')],
+				'filter':[tk.get_validator('ignore_missing')],
+				'cor':[tk.get_validator('ignore_missing')]})	
 
 	return schema
 
