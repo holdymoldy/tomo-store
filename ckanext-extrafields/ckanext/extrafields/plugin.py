@@ -16,7 +16,6 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
 				tk.get_converter('convert_to_extras')]})
 	schema.update({'collector': [tk.get_validator('ignore_missing'),\
 				tk.get_converter('convert_to_extras')]})
-	schema['resources'].pop('name')
 	schema['resources'].update({'name':[tk.get_validator('ignore_missing')],
 				'recon_alg':[tk.get_validator('ignore_missing')],
 				'filter':[tk.get_validator('ignore_missing')],
@@ -44,7 +43,6 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
 				    tk.get_validator('ignore_missing')]})
 	schema.update({'collector': [tk.get_converter('convert_from_extras'),\
 				    tk.get_validator('ignore_missing')]})
-	schema['resources'].pop('name')
 	schema['resources'].update({'name':[tk.get_validator('ignore_missing')],
 				'recon_alg':[tk.get_validator('ignore_missing')],
 				'filter':[tk.get_validator('ignore_missing')],

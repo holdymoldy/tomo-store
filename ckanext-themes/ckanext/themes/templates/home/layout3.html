@@ -1,0 +1,97 @@
+{% import 'macros/form.html' as form %}
+
+{% ckan_extends %}
+
+{% block search %}
+<head>
+<title>Test</title>
+</head>
+<body>
+<table border="2" cellspacing="15" cellpadding="15">
+<caption>
+<font size="10">Available Datasets</font><br><br>
+</caption>
+<tr>
+<td style="padding: 15px;"><font size="5">Name</font></td>
+<td><font size="5">Facility</font></td>
+<td><font size="5">Beamline</font></td>
+<td><font size="5">Owner</font></td>
+<td><font size="5">Collector</font></td>
+<td><font size="5">Available Recons</font></td>
+<td style="padding-right: 15px;"><font size="5">Tags</font></td>
+</tr>
+{% for p in h.packages() %}
+  {% if not p.private %}
+  <tr>
+    {% if p.name %}
+      {% set url = "dataset/rep" %}
+      {% set name = "name" %}
+      <td><a href={{ url | replace("rep",p.name) }}>{{ name | replace("name", p.resources[0].name)  }}</a></td>
+    {% else %}
+      <td>{{ "N/A" }}</td>
+    {% endif %}   
+    {% if p.facility %}
+      {% set facility = "facility" %}
+      <td>{{facility | replace("facility",p.facility) }}</td>
+    {% else %}
+      <td>{{ "N/A" }}</td>
+    {% endif %}
+    {% if p.beamline %}
+      {% set beamline = "beamline" %}
+      <td>{{beamline | replace("beamline",p.beamline) }}</td>
+    {% else %}
+      <td>{{ "N/A" }}</td>
+    {% endif %}
+    {% if p.owner %}
+      {% set owner = "owner" %}
+      <td>{{owner | replace("owner",p.owner) }}</td>
+    {% else %}
+      <td>{{ "N/A" }}</td>
+    {% endif %}  
+    {% if p.collector %}
+      {% set collector = "collector" %}
+      <td>{{collector | replace("collector",p.collector) }}</td>
+    {% else %}
+      <td>{{ "N/A" }}</td>
+    {% endif %}
+    {% if p.num_resources>0 %}
+      <td>
+      {% for resource in p.resources %}
+        {% set data_name = "data" %}
+        {% set data_url = "dataset/rep1/resource/rep2" %}
+        <a href={{ data_url | replace("rep1",p.name) | 
+          replace("rep2", resource.id) }}>{{data_name | replace("data", resource.name)}}</a><br>
+      {% endfor %} 
+      </td>
+    {% else %}
+      <td>{{ "N/A" }}</td>
+    {% endif %}    
+    {% if p.num_tags>0 %}
+      {% set counter = 1 %}
+      <td>
+      {% for tag in p.tags %}
+        {% if counter==p.num_tags %}
+          {{ tag.name }} 
+        {% else %}
+          {{ tag.name }},
+        {% endif %}
+      {% set counter = counter + 1 %}
+      {% endfor %}
+      </td>
+    {% else %}
+      <td>{{ "N/A" }}</td>
+    {% endif %}
+  </tr>
+  {% endif %}
+{% endfor %}
+</tr>
+</table>
+</body>
+{# <ul>
+  {% for package in h.packages() %}
+    <li>{{ package }}</li>
+  {% endfor %}
+</ul> #}
+{% endblock %}
+{% block promoted %}{% endblock %}
+{% block stats %}{% endblock %}
