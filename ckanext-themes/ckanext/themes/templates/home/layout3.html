@@ -3,30 +3,66 @@
 {% ckan_extends %}
 
 {% block search %}
+<html>
 <head>
-<title>Test</title>
+<title>Dataset Table</title>
+<style>
+table {border-collapse: collapse;}
+td, th {border-bottom: 1px solid #ddd;}
+th {background-color: #07617D; color: white;}
+tr:nth-child(even){background-color: #f2f2f2}
+tr:nth-child(odd){background-color: white}
+.button {
+    background-color: #990000;
+    color: white;
+    border: none;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    padding-right: 30px;
+    padding-left: 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    font-weight: 200;
+    margin: 10px 5px;
+    cursor: pointer;
+    -webkit-transition-duration: 0.2s
+    transition-duration: 0.2s;
+}
+.hover_button {
+    background-color: #990000;
+    color: white;
+}
+
+.hover_button:hover {background-color: #CC0000;}
+
+</style>
 </head>
+{% resource 'themes/popover.js' %}
 <body>
-<table border="2" cellspacing="15" cellpadding="15">
+<table cellspacing="15" cellpadding="15">
 <caption>
-<font size="10">Available Datasets</font><br><br>
+<font size="5">Available Datasets</font><br><br>
 </caption>
 <tr>
-<td style="padding: 15px;"><font size="5">Name</font></td>
-<td><font size="5">Facility</font></td>
-<td><font size="5">Beamline</font></td>
-<td><font size="5">Owner</font></td>
-<td><font size="5">Collector</font></td>
-<td><font size="5">Available Recons</font></td>
-<td style="padding-right: 15px;"><font size="5">Tags</font></td>
+<th style="padding: 15px;"><font size="3">Name</font></th>
+<th><font size="3">Facility</font></th>
+<th><font size="3">Beamline</font></th>
+<th><font size="3">Owner</font></th>
+<th><font size="3">Collector</font></th>
+<th><font size="3">Available Recons</font></th>
+<th style="padding-right: 15px;"><font size="3">Tags</font></th>
+{# <th><font size="3">Download</font></th> #}
 </tr>
+{% set button_list = [] %}
 {% for p in h.packages() %}
   {% if not p.private %}
+  <br><br>
   <tr>
     {% if p.name %}
-      {% set url = "dataset/rep" %}
-      {% set name = "name" %}
-      <td><a href={{ url | replace("rep",p.name) }}>{{ name | replace("name", p.resources[0].name)  }}</a></td>
+      <td><a href={{ url | replace("rep",p.name) }} {#data-module="popover" data-module-contents="{{ p.url }}"#}>
+        {{ name | replace("name", p.resources[0].name)  }}</a></td>
     {% else %}
       <td>{{ "N/A" }}</td>
     {% endif %}   
@@ -81,17 +117,58 @@
     {% else %}
       <td>{{ "N/A" }}</td>
     {% endif %}
+   {# {% set check_name = "check" %}
+    <td><input type="checkbox", id=check_name | replace("check",p.resources[0].id)/></td>
+    {% do button_list.append(check_name | replace("check", p.resources[0].id)) %} #}
   </tr>
   {% endif %}
 {% endfor %}
 </tr>
 </table>
 </body>
-{# <ul>
+{#{% set packages = h.packages() %}
+<button onclick="download()" class="button hover_button" style="float: right">Download selected datasets</button>
+<br><br>
+<p id="order"></p>
+
+<script>
+function download() {
+var download_list = [];
+var lst1 = [1,2,3];
+var lst2 = [4,5,6];
+for (var i=0; i < lst1.length; i++){
+download_list.push(lst1[i]);
+}
+document.getElementById("order").value = download_list;
+}
+</script>
+
+<script>
+function download() {
+    var download_list = [];
+    for (var i=0; i < button_list.length; i++) {
+	var box = document.getElementById(button_list[i]);
+	if (box.checked) {
+	    down_list.push(button_list[i])
+            for (var j=0; j < packages.length; j++) {
+	        if (packages[j].resources[0].id==button_list[i]) {
+	            var to_load = packages[j].resources[0].id;
+		    download_list.push(to_load);
+	        }
+	    }
+	}
+    }
+    
+    document.getElementById("order").value = download_list;
+}
+</script>#}
+
+ <ul>
   {% for package in h.packages() %}
     <li>{{ package }}</li>
   {% endfor %}
-</ul> #}
+</ul> 
+
 {% endblock %}
 {% block promoted %}{% endblock %}
 {% block stats %}{% endblock %}

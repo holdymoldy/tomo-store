@@ -1,8 +1,31 @@
+<script>
+function func(){
+    var test = "hello";
+    document.getElementById('output').value = test;
+}
+
+</script>
+
+
 {% ckan_extends %}
 
-{% block basic_fields_url %}
+{% resource extrafields/change_type.js %}
+
+{% block basic_fields_name %}
   {{ super() }}
+  <select id="type" data-module="func()">
+    <option value="raw">Raw Data</option>
+    <option value="recon">Reconstruction</option>
+  </select>
+  
+  <input type = "text" id="output" value="something"></input>
+
   {{ form.input('recon_alg', label=_('Reconstruction Algorithm'), id='field-recon_alg', placeholder=_('eg, Gridrec'), value=data.recon_alg, error=errors.recon_alg, classes=['control-medium']) }}
-  {{ form.input('filter', label=_('Filter'), id='field-filter', placeholder=_('eg, butterworth'), value=data.filter, error=errors.filter, classes=['control-medium']) }}
-  {{ form.input('cor', label=_('Center of Rotation'), id='field-description', placeholder=_('eg, 1280'), value=data.cor, error=errors.cor, classes=['control-medium']) }}
+  {{ form.input('person', label=_('Reconstructed by'), id='field-reconstructor', placeholder=_('ie, person who performed reconstruction'), value=data.reconstructur, error=errors.reconstructor, classes=['control-medium']) }}
+  {{ form.input('hardware', label=_('Hardware'), id='field-hardware', placeholder=_('eg, Intel(R) Xeon(R) CPU E5-1650 v3 @ 3.50 gHz'), value=data.hardware, error=errors.hardware, classes=['control-medium']) }}
 {% endblock %}
+
+{% block basic_fields_description %}
+  {{ form.markdown('description', id='field-description', label=_('Description'), placeholder=_('Other details about reconstruction process'), value=data.description, error=errors.description) }}
+{% endblock %}
+

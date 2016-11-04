@@ -1,0 +1,49 @@
+{% ckan_extends %}
+
+{% block package_additional_info %}
+  {% if pkg_dict.facility %}
+    <tr>
+      <th scope="row" class="dataset-label">{{_("Facility") }}</th>
+      <td class="dataset-details">{{ pkg_dict.facility }}</td>
+    </tr>
+  {% endif %}
+
+  {% if pkg_dict.beamline %}
+    <tr>
+      <th scope="row" class="dataset-label">{{_("Beamline") }}</th>
+      <td class="dataset-details">{{ pkg_dict.beamline }}</td>
+    </tr>
+  {% endif %}
+
+  {% if pkg_dict.owner %}
+    <tr>
+      <th scope="row" class="dataset-label">{{_("Owner") }}</th>
+      <td class="dataset-details">{{ pkg_dict.owner }}</td>
+    </tr>
+  {% endif %}
+
+  {% if pkg_dict.collector %}
+    <tr>
+      <th scope="row" class="dataset-label">{{_("Collected by") }}</th>
+      <td class="dataset-details">{{ pkg_dict.collector }}</td>
+    </tr>
+  {% endif %}
+
+  {% if pkg_dict.thumbnail %}
+    <tr>
+      <th scope="row" class="dataset-label">{{_("thumbnail") }}</th>
+      <td class="dataset-details">{{ pkg_dict.thumbnail }}</td>
+    </tr>
+  {% endif %}
+
+  {% if pkg_dict.image_display_url %}
+    <tr>
+      <th scope="row" class="dataset-label">{{_("urlimag") }}</th>
+      <td class="dataset-details">{{ pkg_dict.image_display_url }}</td>
+    </tr>
+  {% endif %}
+
+
+  {{ super() }}
+{% endblock %}
+

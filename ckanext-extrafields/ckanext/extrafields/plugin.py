@@ -7,7 +7,8 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
     p.implements(p.IConfigurer)
 
     def _modify_package_schema(self, schema):
-
+	schema.update({'image_display_url': [tk.get_validator('ignore_missing'),\
+				tk.get_converter('convert_to_extras')]})
 	schema.update({'facility': [tk.get_validator('ignore_missing'),\
 				tk.get_converter('convert_to_extras')]})
 	schema.update({'beamline': [tk.get_validator('ignore_missing'),\
@@ -18,8 +19,8 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
 				tk.get_converter('convert_to_extras')]})
 	schema['resources'].update({'name':[tk.get_validator('ignore_missing')],
 				'recon_alg':[tk.get_validator('ignore_missing')],
-				'filter':[tk.get_validator('ignore_missing')],
-				'cor':[tk.get_validator('ignore_missing')]})	
+				'person':[tk.get_validator('ignore_missing')],
+				'hardware':[tk.get_validator('ignore_missing')]})	
 
 	return schema
 
@@ -35,6 +36,8 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
 
     def show_package_schema(self):
 	schema = super(ExtrafieldsPlugin,self).show_package_schema()
+        schema.update({'image_display_url': [tk.get_converter('convert_from_extras'),\
+					tk.get_validator('ignore_missing')]})
 	schema.update({'facility': [tk.get_converter('convert_from_extras'),\
 				    tk.get_validator('ignore_missing')]})
 	schema.update({'beamline': [tk.get_converter('convert_from_extras'),\
@@ -45,8 +48,8 @@ class ExtrafieldsPlugin(p.SingletonPlugin, tk.DefaultDatasetForm):
 				    tk.get_validator('ignore_missing')]})
 	schema['resources'].update({'name':[tk.get_validator('ignore_missing')],
 				'recon_alg':[tk.get_validator('ignore_missing')],
-				'filter':[tk.get_validator('ignore_missing')],
-				'cor':[tk.get_validator('ignore_missing')]})	
+				'person':[tk.get_validator('ignore_missing')],
+				'hardware':[tk.get_validator('ignore_missing')]})	
 
 	return schema
 
