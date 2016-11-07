@@ -1,31 +1,72 @@
 <script>
-function func(){
-    var test = "hello";
-    document.getElementById('output').value = test;
+function func(sel){
+    var type = sel;
+    if (type == 'recon'){
+        document.getElementById('recon_form').style.display = 'block';
+    }
+    else {
+        document.getElementById('recon_form').style.display = 'none';
+    }
 }
 
 </script>
 
+<style>
+
+#form {
+    height: 600px;
+    width: 600px;
+    margin-right: auto;
+    margin-left: auto;
+    margin=top: 0px;
+    margin-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 0px;
+    text-align: center;
+}
+
+label {
+//    height: 20px;
+//    width: 200px;
+//    margin-top: 10px;
+//    margin-left: 10px;
+//    margin-right: 15px;
+    float: left;
+}
+
+select {
+//    height: 20px;
+//    width: 200 px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+}
+
+</style>
 
 {% ckan_extends %}
 
-{% resource extrafields/change_type.js %}
 
 {% block basic_fields_name %}
   {{ super() }}
-  <select id="type" data-module="func()">
+<div class="control-group control-medium">
+  <label class="control-label" for="type" style="display:block">Type</label>
+  <select name="type" id="type" onchange="func(this.value)">
     <option value="raw">Raw Data</option>
     <option value="recon">Reconstruction</option>
   </select>
+  <div class="controls"></div>
+</div>
   
-  <input type = "text" id="output" value="something"></input>
 
+<div id="recon_form" style="display:none;">
   {{ form.input('recon_alg', label=_('Reconstruction Algorithm'), id='field-recon_alg', placeholder=_('eg, Gridrec'), value=data.recon_alg, error=errors.recon_alg, classes=['control-medium']) }}
   {{ form.input('person', label=_('Reconstructed by'), id='field-reconstructor', placeholder=_('ie, person who performed reconstruction'), value=data.reconstructur, error=errors.reconstructor, classes=['control-medium']) }}
   {{ form.input('hardware', label=_('Hardware'), id='field-hardware', placeholder=_('eg, Intel(R) Xeon(R) CPU E5-1650 v3 @ 3.50 gHz'), value=data.hardware, error=errors.hardware, classes=['control-medium']) }}
+</div>
+
 {% endblock %}
 
 {% block basic_fields_description %}
-  {{ form.markdown('description', id='field-description', label=_('Description'), placeholder=_('Other details about reconstruction process'), value=data.description, error=errors.description) }}
+  {{ form.markdown('description', id='field-description', label=_('Description'), placeholder=_('Other details about data set/reconstruction'), value=data.description, error=errors.description) }}
 {% endblock %}
 

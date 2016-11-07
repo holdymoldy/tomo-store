@@ -39,7 +39,6 @@ tr:nth-child(odd){background-color: white}
 
 </style>
 </head>
-{% resource 'themes/popover.js' %}
 <body>
 <table cellspacing="15" cellpadding="15">
 <caption>
@@ -61,7 +60,9 @@ tr:nth-child(odd){background-color: white}
   <br><br>
   <tr>
     {% if p.name %}
-      <td><a href={{ url | replace("rep",p.name) }} {#data-module="popover" data-module-contents="{{ p.url }}"#}>
+      {% set url = "dataset/rep" %}
+      {% set name = "name" %}
+      <td><a href={{ url | replace("rep",p.name) }}>
         {{ name | replace("name", p.resources[0].name)  }}</a></td>
     {% else %}
       <td>{{ "N/A" }}</td>
@@ -93,11 +94,13 @@ tr:nth-child(odd){background-color: white}
     {% if p.num_resources>0 %}
       <td>
       {% for resource in p.resources %}
-        {% set data_name = "data" %}
-        {% set data_url = "dataset/rep1/resource/rep2" %}
-        <a href={{ data_url | replace("rep1",p.name) | 
-          replace("rep2", resource.id) }}>{{data_name | replace("data", resource.name)}}</a><br>
-      {% endfor %} 
+        {% if resource.type == 'recon' %}
+          {% set data_name = "data" %}
+          {% set data_url = "dataset/rep1/resource/rep2" %}
+          <a href={{ data_url | replace("rep1",p.name) | 
+            replace("rep2", resource.id) }}>{{data_name | replace("data", resource.name)}}</a><br>
+        {% endif %}
+       {% endfor %} 
       </td>
     {% else %}
       <td>{{ "N/A" }}</td>
@@ -163,11 +166,13 @@ function download() {
 }
 </script>#}
 
+{#
  <ul>
   {% for package in h.packages() %}
     <li>{{ package }}</li>
   {% endfor %}
-</ul> 
+</ul> #}
+
 
 {% endblock %}
 {% block promoted %}{% endblock %}
