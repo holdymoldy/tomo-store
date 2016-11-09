@@ -57,13 +57,12 @@ tr:nth-child(odd){background-color: white}
 {% set button_list = [] %}
 {% for p in h.packages() %}
   {% if not p.private %}
-  <br><br>
   <tr>
     {% if p.name %}
       {% set url = "dataset/rep" %}
       {% set name = "name" %}
       <td><a href={{ url | replace("rep",p.name) }}>
-        {{ name | replace("name", p.resources[0].name)  }}</a></td>
+        {{ name | replace("name", p.title)  }}</a></td>
     {% else %}
       <td>{{ "N/A" }}</td>
     {% endif %}   
