@@ -1,8 +1,11 @@
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
+import ckan.logic.action.get as lastresort
 
 def get_packages():
-    return toolkit.get_action('current_package_list_with_resources')(data_dict={'all_fields':True})
+    packages = toolkit.get_action('current_package_list_with_resources')(data_dict={'limit':10000})
+#    packages = toolkit.get_action('current_package_list_with_resources')(context={'limit':1000, 'offset':1000},data_dict={'sort':'package_count desc','all_fields':True})
+    return packages
 
 class ThemesPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IConfigurer)
