@@ -7,6 +7,14 @@
 <head>
 <title>Dataset Table</title>
 <style>
+.scrollit {
+    overflow:scroll;
+    height:800px;
+}
+.tbody div{
+    overflow:scroll;
+    height:100px;
+}
 table {border-collapse: collapse;}
 td, th {border-bottom: 1px solid #ddd;}
 th {background-color: #07617D; color: white;}
@@ -40,22 +48,25 @@ tr:nth-child(odd){background-color: white}
 </style>
 </head>
 <body>
-<br><br>
 <table cellspacing="15" cellpadding="15">
 <caption>
 <font size="5">Available Datasets</font><br><br>
 </caption>
-<br><br>
-<tr>
-<th style="padding: 15px;"><font size="3">Name</font></th>
-<th><font size="3">Facility</font></th>
-<th><font size="3">Beamline</font></th>
-<th><font size="3">Owner</font></th>
-<th><font size="3">Collector</font></th>
-<th><font size="3">Available Recons</font></th>
-<th style="padding-right: 15px;"><font size="3">Tags</font></th>
-{# <th><font size="3">Download</font></th> #}
-</tr>
+<tbody>
+  <tr>
+    <td colspan="7">
+  <div class="scrollit">
+    <table cellspacing="15" cellpadding="15">
+    <tr>
+      <th style="padding: 15px;"><font size="3">Name</font></th>
+      <th><font size="3">Facility</font></th>
+      <th><font size="3">Beamline</font></th>
+      <th><font size="3">Owner</font></th>
+      <th><font size="3">Collector</font></th>
+      <th><font size="3">Available Recons</font></th>
+      <th style="padding-right: 15px;"><font size="3">Tags</font></th>
+      {# <th><font size="3">Download</font></th> #}
+    </tr>
 {% set button_list = [] %}
 {% for p in h.packages() %}
   {% if not p.private %}
@@ -127,7 +138,11 @@ tr:nth-child(odd){background-color: white}
   </tr>
   {% endif %}
 {% endfor %}
+</table>
+</div>
+</td>
 </tr>
+</tbody>
 </table>
 </body>
 {#{% set packages = h.packages() %}
