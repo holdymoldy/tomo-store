@@ -47,6 +47,9 @@ tr:nth-child(odd){background-color: white}
 
 </style>
 </head>
+
+{% resource 'themes/popover.js' %}
+
 <body>
 <table cellspacing="15" cellpadding="15">
 <caption>
@@ -74,8 +77,18 @@ tr:nth-child(odd){background-color: white}
     {% if p.name %}
       {% set url = "dataset/rep" %}
       {% set name = "name" %}
-      <td><a href={{ url | replace("rep",p.name) }}>
-        {{ name | replace("name", p.title)  }}</a></td>
+      {% set flag = [] %}
+	{% for resource in p.resources %}
+	    {% if resource.type == 'thumbnail' %}
+		{% do flag.append(1) %}
+	        <td><a href={{ url | replace("rep",p.name) }} data-module="popover" data-module-contents="{{ resource.url }}">
+	        {{ name | replace("name", p.title)  }}</a></td>	
+	    {% endif %}
+	{% endfor %}
+        {% if not flag %}
+          <td><a href={{ url | replace("rep",p.name) }}>
+          {{ name | replace("name", p.title)  }}</a></td>
+        {% endif %}
     {% else %}
       <td>{{ "N/A" }}</td>
     {% endif %}   
